@@ -3,10 +3,12 @@ import { FlightInput } from 'components/FlightInput';
 import { Select } from 'components/Select/Select';
 import { Button } from 'shadcn/components/ui/button';
 import { IoSearchOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
+import { useFlightSelectionStore } from '../../store';
 
 export default function FlightSearch() {
     return (
-        <div className="max-h-[350px] max-w-[650px] rounded-lg bg-slate-900">
+        <div className="max-h-[350px] max-w-[650px] rounded-lg bg-darkBlue">
             <FlightSearchHeader />
             <FlightSearchForm />
             <FlightSearchButton />
@@ -29,9 +31,18 @@ function FlightSearchForm() {
 }
 
 function FlightSearchButton() {
+    const navigate = useNavigate();
+    const selectedAirline = useFlightSelectionStore((state) => state.selectedAirline);
+    const selectedInputValue = useFlightSelectionStore((state) => state.selectedInputValue);
+    console.log(selectedAirline);
+    const handleSearchClick = () => {
+        const url = `/search/${selectedAirline}/${selectedInputValue}`;
+        navigate(url);
+    };
+
     return (
-        <div className="p-5">
-            <Button>
+        <div className="flex justify-end p-5">
+            <Button onClick={handleSearchClick}>
                 <div className="flex items-center justify-center">
                     <IoSearchOutline />
                     <div className="ml-1">Search</div>

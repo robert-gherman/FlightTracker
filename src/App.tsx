@@ -1,13 +1,28 @@
 import Hero from 'pages/Home/Hero';
-import { useCounterStore } from './store';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
-    const counter = useCounterStore((state) => state.count);
     return (
-        <div className="h-screen">
-            {counter}
-            <Hero />
-        </div>
+        <Router>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <div className="h-screen">
+                            <Hero />
+                        </div>
+                    }
+                />
+                <Route
+                    path="/search/:airline/:number"
+                    element={
+                        <div className="h-screen">
+                            <Hero />
+                        </div>
+                    }
+                />
+            </Routes>
+        </Router>
     );
 }
 

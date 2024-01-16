@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
@@ -6,14 +5,16 @@ import { cn } from 'shadcn/lib/utils';
 import { Button } from 'shadcn/components/ui/button';
 import { Calendar } from 'shadcn/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from 'shadcn/components/ui/popover';
+import { useFlightSelectionStore } from '../../store';
 
 export function DatePicker() {
-    const [date, setDate] = React.useState<Date>();
+    const selectedDate = useFlightSelectionStore((state) => state.selectedDate);
+    const setSelectedDate = useFlightSelectionStore((state) => state.setSelectedDate);
 
     return (
-        <div className="flex  flex-col">
-            <div className="my-3 ">Select date</div>
-            <PopoverComponent selected={date} onSelect={setDate} />
+        <div className="flex flex-col">
+            <div className="my-3">Select date</div>
+            <PopoverComponent selected={selectedDate} onSelect={setSelectedDate} />
         </div>
     );
 }
