@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
     Select as ShadcnSelect,
     SelectContent,
@@ -43,13 +43,14 @@ export function Select() {
 interface ShadcnSelectComponentProps {
     airlines: string[];
 }
+
 function ShadcnSelectComponent({ airlines }: ShadcnSelectComponentProps) {
-    const setSelectedAirline = useFlightSelectionStore((state) => state.setSelectedAirline);
-    const selectedAirline = useFlightSelectionStore((state) => state.selectedAirline);
-    // AIRLINE NADA FIX IT
-    console.log(selectedAirline);
     return (
-        <ShadcnSelect>
+        <ShadcnSelect
+            onValueChange={(value) => {
+                useFlightSelectionStore.getState().setSelectedAirline(value);
+            }}
+        >
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select an airline" />
             </SelectTrigger>
@@ -58,11 +59,7 @@ function ShadcnSelectComponent({ airlines }: ShadcnSelectComponentProps) {
                     <SelectLabel>Airlines</SelectLabel>
 
                     {airlines.map((airline, index) => (
-                        <SelectItem
-                            key={index}
-                            value={airline}
-                            onClick={() => setSelectedAirline(airline)}
-                        >
+                        <SelectItem key={index} value={airline}>
                             {airline}
                         </SelectItem>
                     ))}
