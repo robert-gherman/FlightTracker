@@ -1,3 +1,4 @@
+import { FlightProgressBar } from 'components/FlightProgressBar';
 import { format } from 'date-fns';
 
 interface FlightInfo {
@@ -59,6 +60,7 @@ export function FlightInfoHeader() {
                     isDeparture={false}
                 />
             </div>
+            <FlightProgressBar />
         </div>
     );
 }
