@@ -3,6 +3,19 @@
         "language": {
             "en": "English",
             "ro": "Romanian"
+        },
+        "title": {
+            "headerTitle": "Real-time Worldwide Flight Traffic",
+            "contentTitle": "Explore the skies around you or anywhere in the world using our live flight tracking map. Click on any aircraft or airport for a more detailed view, and use icons in the top right corner to make the map bigger or smaller."
+        },
+        "flightStatus": {
+            "statusTitle": "Check Flight Status",
+            "airline": "Airline",
+            "flight": "Flight",
+            "date": "Select Date",
+            "search": "Search",
+            "alegeData": "Pick a date",
+            "pickAirline": "Select an airline"
         }
     }
 }

@@ -3,6 +3,19 @@
         "language": {
             "en": "Engleză",
             "ro": "Română"
+        },
+        "title": {
+            "headerTitle": "Trafic aerian în timp real la nivel mondial",
+            "contentTitle": "Explorează cerul din jurul tău sau oriunde în lume folosind harta noastră în timp real a urmăririi zborurilor. Clic pe oricare avion sau aeroport pentru o vedere mai detaliată și folosește icoanele din colțul din dreapta sus pentru a mări sau micșora harta."
+        },
+        "flightStatus": {
+            "statusTitle": "Verifică Starea Zborului",
+            "airline": "Companie Aeriană",
+            "flight": "Zbor",
+            "date": "Selecteaza data",
+            "search": "Cauta",
+            "alegeData": "Alege o data",
+            "pickAirline": "Alege o companie aeriană"
         }
     }
 }

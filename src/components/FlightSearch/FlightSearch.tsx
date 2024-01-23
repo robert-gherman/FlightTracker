@@ -5,6 +5,7 @@ import { Button } from 'shadcn/components/ui/button';
 import { IoSearchOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { useFlightSelectionStore } from '../../store';
+import { useTranslation } from 'react-i18next';
 
 export default function FlightSearch() {
     return (
@@ -17,7 +18,8 @@ export default function FlightSearch() {
 }
 
 function FlightSearchHeader() {
-    return <div className="p-5 text-xl">Check Flight Status</div>;
+    const { t } = useTranslation();
+    return <div className="p-5 text-xl">{t('web.flightStatus.statusTitle')}</div>;
 }
 
 function FlightSearchForm() {

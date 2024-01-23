@@ -13,4 +13,4 @@ i18n.use(initReactI18next).init({
     resources
 });
 
-export { i18n };
+export { i18n, I18nLocale };

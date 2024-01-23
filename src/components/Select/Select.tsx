@@ -9,6 +9,7 @@ import {
     SelectValue
 } from 'shadcn/components/ui/select';
 import { useFlightSelectionStore } from '../../store';
+import { useTranslation } from 'react-i18next';
 
 interface FlightData {
     airline_name: string;
@@ -16,6 +17,7 @@ interface FlightData {
 export function Select() {
     // const [airlines, setAirlines] = useState<string[]>([]);
     const airlines = ['USA', 'CANADA', 'PLM'];
+    const { t } = useTranslation();
     useEffect(() => {
         // const fetchData = async () => {
         //     try {
@@ -34,7 +36,7 @@ export function Select() {
 
     return (
         <div className="flex flex-col ">
-            <div className="my-3 ">Airline</div>
+            <div className="my-3 ">{t('web.flightStatus.airline')}</div>
             <ShadcnSelectComponent airlines={airlines} />
         </div>
     );
@@ -45,6 +47,7 @@ interface ShadcnSelectComponentProps {
 }
 
 function ShadcnSelectComponent({ airlines }: ShadcnSelectComponentProps) {
+    const { t } = useTranslation();
     return (
         <ShadcnSelect
             onValueChange={(value) => {
@@ -52,7 +55,7 @@ function ShadcnSelectComponent({ airlines }: ShadcnSelectComponentProps) {
             }}
         >
             <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select an airline" />
+                <SelectValue placeholder={t('web.flightStatus.pickAirline')} />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>

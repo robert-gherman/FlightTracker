@@ -26,7 +26,7 @@ export default function ThemeButton() {
     };
 
     return (
-        <div className="flex justify-end">
+        <>
             <button onClick={handleTheme} className="m-4 rounded hover:bg-gray-700">
                 {!darkTheme ? (
                     <MdDarkMode style={{ height: '30px', width: '30px' }} />
@@ -34,6 +34,6 @@ export default function ThemeButton() {
                     <MdLightMode style={{ height: '30px', width: '30px' }} />
                 )}
             </button>
-        </div>
+        </>
     );
 }
