@@ -1,14 +1,16 @@
 import { FaPlane } from 'react-icons/fa6';
 import { Progress } from 'shadcn/components/ui/progress';
-
-export function FlightProgressBar() {
+interface FlightProgressBarProps {
+    value: number;
+}
+export function FlightProgressBar({ value }: FlightProgressBarProps) {
     return (
-        <div>
-            <Progress value={30} />
+        <div className="relative my-5">
+            <Progress value={value} />
             <div
-                className=" absolute -translate-x-24 -translate-y-1/2 transform transition-all"
+                className=" absolute -translate-x-1 -translate-y-1/2 transform transition-all"
                 style={{
-                    left: `${30 || 0}%`,
+                    left: `${value}%`,
                     paddingBottom: '13px'
                 }}
             >

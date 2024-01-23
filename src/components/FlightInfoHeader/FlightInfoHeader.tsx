@@ -1,46 +1,38 @@
 import { FlightProgressBar } from 'components/FlightProgressBar';
-import { format } from 'date-fns';
+import { format, parseISO, differenceInSeconds } from 'date-fns';
+import { dummyFlightInfo } from '../../mockData';
 
-interface FlightInfo {
-    flight_date: string;
-    departure: {
-        airport: string;
-        iata: string;
-        gate: string;
-        time: string;
-    };
-    arrival: {
-        airport: string;
-        iata: string;
-        gate: string;
-        time: string;
-    };
-    airline: {
-        name: string;
-    };
+function convertTimeToSeconds(departureTime: string, arrivalTime: string): number {
+    const parsedArrivalTime = parseISO(arrivalTime);
+    const parsedDepartureTime = parseISO(departureTime);
+    const differenceArrivalDeparture = differenceInSeconds(parsedArrivalTime, parsedDepartureTime);
+    return differenceArrivalDeparture;
+}
+function getCurrentTimeInSeconds(departureTime: string): number {
+    const currentTime = new Date();
+    const parsedDepartureTime = parseISO(departureTime);
+    const differenceDepartureCurrent = differenceInSeconds(currentTime, parsedDepartureTime);
+    return differenceDepartureCurrent;
+}
+function convertInPercentage(totalTime: number, currentTime: number) {
+    if (totalTime === 0) return 0;
+    const percentage = (currentTime * 100) / totalTime;
+    if (percentage > 100) return 100;
+    return percentage;
 }
 
 export function FlightInfoHeader() {
-    const dummyFlightInfo: FlightInfo = {
-        flight_date: '2019-12-12',
-        departure: {
-            airport: 'San Francisco International',
-            iata: 'SFO',
-            gate: 'D11',
-            time: '2019-12-12T04:20:13+00:00'
-        },
-        arrival: {
-            airport: 'Dallas/Fort Worth International',
-            iata: 'DFW',
-            gate: 'A22',
-            time: '2019-12-12T12:22:00+00:00'
-        },
-        airline: {
-            name: 'American Airlines'
-        }
-    };
+    const totalTimeInSeconds = convertTimeToSeconds(
+        dummyFlightInfo.departure.time,
+        dummyFlightInfo.arrival.time
+    );
+
+    const currentTimeInSeconds = getCurrentTimeInSeconds(dummyFlightInfo.departure.time);
+
+    const progressPercentage = convertInPercentage(totalTimeInSeconds, currentTimeInSeconds);
+
     return (
-        <div className="mx-28 my-[50px] max-h-[600px] w-[800px] rounded-lg border-2 border-slate-300 p-10">
+        <div className=" mx-auto my-[50px] max-h-[600px] w-[900px] rounded-lg border-2 border-slate-300 p-10">
             <div>
                 <div className="mb-5 text-4xl">Singapore Airlines 351</div>
             </div>
@@ -60,7 +52,7 @@ export function FlightInfoHeader() {
                     isDeparture={false}
                 />
             </div>
-            <FlightProgressBar />
+            <FlightProgressBar value={progressPercentage} />
         </div>
     );
 }
@@ -77,6 +69,7 @@ function AirportInfo({ iata, airportName, gate, time, isDeparture }: AirportInfo
     const formatDateTime = (dateTime: string): { date: string; time: string } => {
         const parsedDate = new Date(dateTime);
         const formattedDate = format(parsedDate, 'EEEE d-MMM-yyyy');
+        console.log('parsed data in ...', parsedDate);
         const formattedTime = format(parsedDate, 'hh:mma OOOO');
         return { date: formattedDate, time: formattedTime };
     };
