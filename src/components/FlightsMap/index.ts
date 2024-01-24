@@ -1,1 +1,0 @@
-export { FlightsMap } from './FlightsMap';

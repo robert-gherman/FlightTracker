@@ -1,5 +1,5 @@
+import FlightMap from 'components/FlightMap/FlightMap';
 import FlightSearch from 'components/FlightSearch/FlightSearch';
-import { FlightsMap } from 'components/FlightsMap';
 
 export default function Hero() {
     return (
@@ -7,7 +7,7 @@ export default function Hero() {
             <div className="justify-left flex h-full items-end pl-16">
                 <FlightSearch />
             </div>
-            <FlightsMap />
+            <FlightMap />
         </div>
     );
 }
