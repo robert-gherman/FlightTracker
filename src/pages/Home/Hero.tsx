@@ -7,7 +7,7 @@ export default function Hero() {
             <div className="justify-left flex h-full items-end pl-16">
                 <FlightSearch />
             </div>
-            <FlightMap />
+            {/* <FlightMap /> */}
         </div>
     );
 }

@@ -1,6 +1,5 @@
 import ReactCountryFlag from 'react-country-flag';
 import { useTranslation } from 'react-i18next';
-
 import { I18nLocale } from '../../i18n/i18n';
 import {
     Select,

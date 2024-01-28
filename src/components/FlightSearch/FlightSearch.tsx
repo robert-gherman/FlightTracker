@@ -36,9 +36,10 @@ function FlightSearchButton() {
     const navigate = useNavigate();
     const selectedAirline = useFlightSelectionStore((state) => state.selectedAirline);
     const selectedInputValue = useFlightSelectionStore((state) => state.selectedInputValue);
-    console.log(selectedAirline);
+    const cleanedAirline = selectedAirline.replace(/\s+/g, '');
+
     const handleSearchClick = () => {
-        const url = `/search/${selectedAirline}/${selectedInputValue}`;
+        const url = `/search/${cleanedAirline}/${selectedInputValue}`;
         navigate(url);
     };
 

@@ -10,7 +10,6 @@ import {
 import { historyFlightsInfo } from '../../mockData';
 
 export function FlightHistoryDetails() {
-    console.log(historyFlightsInfo);
     historyFlightsInfo.forEach((item, i) => {
         const departureTime = new Date(item.departure.time);
         const arrivalTime = new Date(item.arrival.time);
@@ -37,7 +36,7 @@ export function FlightHistoryDetails() {
     });
 
     return (
-        <div className="mx-auto my-[50px] w-[900px] ">
+        <div className="mx-11 my-[50px] w-[900px] ">
             <Table>
                 <TableCaption>A list of flight history.</TableCaption>
                 <TableHeader>

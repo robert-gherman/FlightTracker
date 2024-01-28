@@ -32,7 +32,7 @@ export function FlightInfoHeader() {
     const progressPercentage = convertInPercentage(totalTimeInSeconds, currentTimeInSeconds);
 
     return (
-        <div className=" mx-auto my-[50px] max-h-[600px] w-[900px] rounded-lg border-2 border-slate-300 p-10">
+        <div className=" mx-11 my-[50px] max-h-[600px] w-[900px] rounded-lg border-2 border-slate-300 p-10">
             <div>
                 <div className="mb-5 text-4xl">Singapore Airlines 351</div>
             </div>
@@ -69,7 +69,6 @@ function AirportInfo({ iata, airportName, gate, time, isDeparture }: AirportInfo
     const formatDateTime = (dateTime: string): { date: string; time: string } => {
         const parsedDate = new Date(dateTime);
         const formattedDate = format(parsedDate, 'EEEE d-MMM-yyyy');
-        console.log('parsed data in ...', parsedDate);
         const formattedTime = format(parsedDate, 'hh:mma OOOO');
         return { date: formattedDate, time: formattedTime };
     };
