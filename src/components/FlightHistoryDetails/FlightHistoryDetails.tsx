@@ -8,12 +8,14 @@ import {
     TableRow
 } from 'shadcn/components/ui/table';
 import { historyFlightsInfo } from '../../mockData';
+import { useTranslation } from 'react-i18next';
 
 export function FlightHistoryDetails() {
     historyFlightsInfo.forEach((item, i) => {
         const departureTime = new Date(item.departure.time);
         const arrivalTime = new Date(item.arrival.time);
-
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-expect-error
         if (!isNaN(departureTime) && !isNaN(arrivalTime)) {
             const formattedDepartureTime = new Intl.DateTimeFormat('en-US', {
                 hour: 'numeric',
@@ -34,20 +36,20 @@ export function FlightHistoryDetails() {
             console.error(`Invalid date format at index ${i}: ${item.departure.time}`);
         }
     });
-
+    const { t } = useTranslation();
     return (
         <div className="mx-11 my-[50px] w-[900px] ">
             <Table>
-                <TableCaption>A list of flight history.</TableCaption>
+                <TableCaption>{t('web.tableHeaders.caption')}</TableCaption>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">Date</TableHead>
-                        <TableHead>Aircraft</TableHead>
-                        <TableHead>Origin</TableHead>
-                        <TableHead>Destination</TableHead>
-                        <TableHead>Departure</TableHead>
-                        <TableHead>Arrival</TableHead>
-                        <TableHead>Duration</TableHead>
+                        <TableHead className="w-[100px]">{t('web.tableHeaders.date')}</TableHead>
+                        <TableHead>{t('web.tableHeaders.aircraft')}</TableHead>
+                        <TableHead>{t('web.tableHeaders.origin')}</TableHead>
+                        <TableHead>{t('web.tableHeaders.destination')}</TableHead>
+                        <TableHead>{t('web.tableHeaders.departure')}</TableHead>
+                        <TableHead>{t('web.tableHeaders.arrival')}</TableHead>
+                        <TableHead>{t('web.tableHeaders.duration')}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

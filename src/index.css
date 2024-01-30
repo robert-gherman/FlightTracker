@@ -34,7 +34,8 @@
 
         --radius: 0.5rem;
         --darkBlue: 210 40% 96.1%;
-        --nightWhite: 0 1% 65%;
+        --nightWhite: 0 1% 85%;
+        --lightBlue: 0 1% 78%;
     }
 
     .dark {
@@ -67,6 +68,7 @@
         --ring: 212.7 26.8% 83.9%;
         --darkBlue: 222 47% 11%;
         --nightWhite: 222 40% 8%;
+        --lightBlue: 221 34% 13%;
     }
 }
 

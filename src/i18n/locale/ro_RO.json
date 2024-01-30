@@ -16,6 +16,35 @@
             "search": "Cauta",
             "alegeData": "Alege o data",
             "pickAirline": "Alege o companie aeriană"
+        },
+        "aviationTerms": {
+            "registration": "Înregistrare",
+            "model": "Model",
+            "modeSCode": "Cod Mod S (hex)",
+            "operator": "Operator",
+            "callsign": "Semnal de apel",
+            "flight": "Zbor",
+            "velocity": "Viteză",
+            "track": "Traiectorie",
+            "geomAltitude": "Altitudine Geometrică",
+            "baromAltitude": "Altitudine Barometrică",
+            "verticalRate": "Rată Verticală",
+            "squawk": "Codul transponderului",
+            "source": "Sursă"
+        },
+        "flightInfo": {
+            "left": "a plecat",
+            "arriving": "sosește la"
+        },
+        "tableHeaders": {
+            "date": "Data",
+            "aircraft": "Aeronava",
+            "origin": "Origine",
+            "destination": "Destinație",
+            "departure": "Plecare",
+            "arrival": "Sosire",
+            "duration": "Durată",
+            "caption": "O listă a istoricului zborurilor."
         }
     }
 }

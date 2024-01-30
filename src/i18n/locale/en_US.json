@@ -16,6 +16,35 @@
             "search": "Search",
             "alegeData": "Pick a date",
             "pickAirline": "Select an airline"
+        },
+        "aviationTerms": {
+            "registration": "Registration",
+            "model": "Model",
+            "modeSCode": "Mode S Code (hex)",
+            "operator": "Operator",
+            "callsign": "Callsign",
+            "flight": "Flight",
+            "velocity": "Velocity",
+            "track": "Track",
+            "geomAltitude": "Geom. Altitude",
+            "baromAltitude": "Barom. Altitude",
+            "verticalRate": "Vertical Rate",
+            "squawk": "Squawk",
+            "source": "Source"
+        },
+        "flightInfo": {
+            "left": "left",
+            "arriving": "arriving at"
+        },
+        "tableHeaders": {
+            "date": "Date",
+            "aircraft": "Aircraft",
+            "origin": "Origin",
+            "destination": "Destination",
+            "departure": "Departure",
+            "arrival": "Arrival",
+            "duration": "Duration",
+            "caption": "A list of flight history."
         }
     }
 }

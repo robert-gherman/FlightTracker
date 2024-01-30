@@ -1,6 +1,7 @@
 import { FlightProgressBar } from 'components/FlightProgressBar';
 import { format, parseISO, differenceInSeconds } from 'date-fns';
 import { dummyFlightInfo } from '../../mockData';
+import { useTranslation } from 'react-i18next';
 
 function convertTimeToSeconds(departureTime: string, arrivalTime: string): number {
     const parsedArrivalTime = parseISO(arrivalTime);
@@ -74,13 +75,13 @@ function AirportInfo({ iata, airportName, gate, time, isDeparture }: AirportInfo
     };
 
     const { date, time: formattedTime } = formatDateTime(time);
-
+    const { t } = useTranslation();
     return (
         <div className={`mb-2 text-lg ${isDeparture ? 'text-left' : 'text-right'}`}>
             <div>{iata}</div>
             <div className="font-bold">{airportName}</div>
             <div className="mt-4 text-sm">
-                {isDeparture ? 'left' : 'arriving at'}
+                {isDeparture ? `${t('web.flightInfo.left')}` : `${t('web.flightInfo.arriving')}`}
                 <span className="font-bold">{` GATE ${gate}`}</span>
             </div>
             <div className="mt-4">{date}</div>
