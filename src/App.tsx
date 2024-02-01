@@ -22,7 +22,7 @@ function App() {
                     }
                 />
                 <Route
-                    path="/search/:airline/:number"
+                    path="/search/:number"
                     element={
                         <div className="h-screen">
                             <Flights />

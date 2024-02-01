@@ -30,7 +30,9 @@
             "baromAltitude": "Barom. Altitude",
             "verticalRate": "Vertical Rate",
             "squawk": "Squawk",
-            "source": "Source"
+            "source": "Source",
+            "country": "Country",
+            "engine": "Engines"
         },
         "flightInfo": {
             "left": "left",

@@ -4,7 +4,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import { countries } from '../../mockData';
 import ReactCountryFlag from 'react-country-flag';
 import { useTranslation } from 'react-i18next';
-import { useFlightSelectionStore } from '../../store';
 
 export function FlightInfoDetails() {
     const { t } = useTranslation();
@@ -15,25 +14,45 @@ export function FlightInfoDetails() {
         t('web.aviationTerms.operator'),
         t('web.aviationTerms.callsign'),
         t('web.aviationTerms.flight'),
-        t('web.aviationTerms.velocity'),
-        t('web.aviationTerms.track'),
-        t('web.aviationTerms.geomAltitude'),
-        t('web.aviationTerms.baromAltitude'),
-        t('web.aviationTerms.verticalRate'),
-        t('web.aviationTerms.squawk'),
-        t('web.aviationTerms.source')
+        t('web.aviationTerms.engine'),
+        t('web.aviationTerms.callsign'),
+        t('web.aviationTerms.country')
+        // t('web.aviationTerms.velocity'),
+        // t('web.aviationTerms.track'),
+        // t('web.aviationTerms.geomAltitude'),
+        // t('web.aviationTerms.baromAltitude'),
+        // t('web.aviationTerms.verticalRate'),
+        // t('web.aviationTerms.squawk'),
+        // t('web.aviationTerms.source')
+    ];
+    const flightDummyMap = [
+        'registration',
+        'model',
+        'serialNumber',
+        'operator',
+        'operatorCallsign',
+        'icao24',
+        'engines',
+        // 'velocity',
+        // 'track',
+        // 'geomAltitude',
+        // 'baromAltitude',
+        // 'verticalRate',
+        // 'squawk',
+        'callSign',
+        'country'
     ];
 
-    // https://opensky-network.org/api/metadata/aircraft/icao/4b1803
     const [aircraftData, setAircraftData] = useState(null);
-
+    const storedFlight = localStorage.getItem('selectedFlight');
+    const parsedFlight = JSON.parse(storedFlight as string);
     useEffect(() => {
         const fetchAircraftData = async () => {
             try {
-                const response = await fetch('http://localhost:3001/aircraft/4b1803');
+                const response = await fetch(`http://localhost:3001/aircraft/${parsedFlight.icao}`);
 
                 const data = await response.json();
-                console.log(data);
+
                 setAircraftData(data);
             } catch (error) {
                 console.error('Error fetching aircraft data:', error);
@@ -42,12 +61,12 @@ export function FlightInfoDetails() {
 
         fetchAircraftData();
     }, []);
-    const selectedInputValue = useFlightSelectionStore((state) => state.selectedInputValue);
+
     return (
-        <div className="mx-auto my-[50px] flex w-[400px] flex-col items-start bg-darkBlue">
+        <div className="mx-auto my-[50px] flex max-h-[650px] w-[400px] flex-col items-start bg-darkBlue">
             <div className="flex w-full items-center justify-center gap-3 bg-nightWhite">
                 <div className="my-2 text-xl font-bold">
-                    {flightProperties[5]} {selectedInputValue}
+                    {flightProperties[5]} {parsedFlight.icao}
                 </div>
                 <FaShareFromSquare size={20} style={{ cursor: 'pointer' }} />
             </div>
@@ -76,11 +95,18 @@ export function FlightInfoDetails() {
 
                 <div className="mx-5 mt-4">
                     {aircraftData &&
-                        Object.values(aircraftData).map((value) => {
-                            return (
-                                !!value && <div className="my-4 text-sm">{value as ReactNode}</div>
+                        flightDummyMap.map((key) => {
+                            const value =
+                                key === 'callSign' ? parsedFlight.callsign : aircraftData[key];
+                            return value ? (
+                                <div className="my-4 text-sm" key={key}>
+                                    {value as ReactNode}
+                                </div>
+                            ) : (
+                                <div>N/A</div>
                             );
                         })}
+                    <div>{parsedFlight.callSign}</div>
                 </div>
             </div>
         </div>

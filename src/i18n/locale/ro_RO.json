@@ -30,7 +30,9 @@
             "baromAltitude": "Altitudine Barometrică",
             "verticalRate": "Rată Verticală",
             "squawk": "Codul transponderului",
-            "source": "Sursă"
+            "source": "Sursă",
+            "country": "Țara de origine",
+            "engine": "Număr motoare"
         },
         "flightInfo": {
             "left": "a plecat",

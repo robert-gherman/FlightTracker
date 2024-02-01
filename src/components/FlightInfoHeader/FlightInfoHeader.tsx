@@ -2,6 +2,10 @@ import { FlightProgressBar } from 'components/FlightProgressBar';
 import { format, parseISO, differenceInSeconds } from 'date-fns';
 import { dummyFlightInfo } from '../../mockData';
 import { useTranslation } from 'react-i18next';
+import { useFlightSelectionStore } from '../../store';
+import { useEffect, useState } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '../../shadcn/components/ui/alert';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 function convertTimeToSeconds(departureTime: string, arrivalTime: string): number {
     const parsedArrivalTime = parseISO(arrivalTime);
@@ -32,27 +36,98 @@ export function FlightInfoHeader() {
 
     const progressPercentage = convertInPercentage(totalTimeInSeconds, currentTimeInSeconds);
 
+    const selectedCallsign = useFlightSelectionStore((state) => state.selectedCallsign);
+    const [routeData, setRouteData] = useState<RouteData>();
+    const [departureAirport, setDepartureAirport] = useState();
+    const [arrivalAirport, setArrivalAirport] = useState();
+    const [couldfindFlight, setCouldFindFlight] = useState(true);
+    useEffect(() => {
+        const fetchAircraftData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/routes/${selectedCallsign}`);
+
+                if (!response.ok) {
+                    setCouldFindFlight(false);
+                    return;
+                }
+
+                const data = await response.json();
+                console.log(data);
+                setRouteData(data);
+            } catch (error) {
+                console.error('Error fetching aircraft data:', error);
+            }
+        };
+
+        fetchAircraftData();
+    }, [selectedCallsign]);
+    useEffect(() => {
+        const fetchDepartureAirportData = async () => {
+            if (routeData) {
+                try {
+                    const response = await fetch(
+                        `http://localhost:3001/airports/${routeData?.route[0]}`
+                    );
+
+                    const data = await response.json();
+
+                    setDepartureAirport(data);
+                } catch (error) {
+                    console.error('Error fetching airport data:', error);
+                }
+            }
+        };
+
+        const fetchArrivalAirportData = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:3001/airports/${routeData?.route[1]}`
+                );
+
+                const data = await response.json();
+
+                setArrivalAirport(data);
+            } catch (error) {
+                console.error('Error fetching aircraft data:', error);
+            }
+        };
+
+        fetchDepartureAirportData();
+        fetchArrivalAirportData();
+    }, [routeData]);
+
     return (
         <div className=" mx-11 my-[50px] max-h-[600px] w-[900px] rounded-lg border-2 border-slate-300 p-10">
             <div>
                 <div className="mb-5 text-4xl">Singapore Airlines 351</div>
             </div>
-            <div className="flex justify-between">
-                <AirportInfo
-                    iata={dummyFlightInfo.departure.iata}
-                    airportName={dummyFlightInfo.departure.airport}
-                    gate={dummyFlightInfo.departure.gate}
-                    time={dummyFlightInfo.departure.time}
-                    isDeparture
-                />
-                <AirportInfo
-                    iata={dummyFlightInfo.arrival.iata}
-                    airportName={dummyFlightInfo.arrival.airport}
-                    gate={dummyFlightInfo.arrival.gate}
-                    time={dummyFlightInfo.arrival.time}
-                    isDeparture={false}
-                />
-            </div>
+            {couldfindFlight ? (
+                <>
+                    <div className="flex justify-between">
+                        {departureAirport && (
+                            <AirportInfo
+                                iata={departureAirport.icao}
+                                airportName={departureAirport.name}
+                                gate={dummyFlightInfo.departure.gate}
+                                time={dummyFlightInfo.departure.time}
+                                isDeparture
+                            />
+                        )}
+                        {arrivalAirport && (
+                            <AirportInfo
+                                iata={arrivalAirport.icao}
+                                airportName={arrivalAirport.name}
+                                gate={dummyFlightInfo.arrival.gate}
+                                time={dummyFlightInfo.arrival.time}
+                                isDeparture={false}
+                            />
+                        )}
+                    </div>
+                </>
+            ) : (
+                <AlertError />
+            )}
+
             <FlightProgressBar value={progressPercentage} />
         </div>
     );
@@ -65,7 +140,24 @@ interface AirportInfoProps {
     time: string;
     isDeparture: boolean;
 }
-
+interface RouteData {
+    callsign: string;
+    flightNumber: number;
+    operatorIata: string;
+    route: Array<string>;
+    updateTime: number;
+}
+function AlertError() {
+    return (
+        <div className="mx-11">
+            <Alert variant="destructive">
+                <ExclamationTriangleIcon className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>Could not find the flight invalid ICAO code.</AlertDescription>
+            </Alert>
+        </div>
+    );
+}
 function AirportInfo({ iata, airportName, gate, time, isDeparture }: AirportInfoProps) {
     const formatDateTime = (dateTime: string): { date: string; time: string } => {
         const parsedDate = new Date(dateTime);
@@ -76,6 +168,7 @@ function AirportInfo({ iata, airportName, gate, time, isDeparture }: AirportInfo
 
     const { date, time: formattedTime } = formatDateTime(time);
     const { t } = useTranslation();
+
     return (
         <div className={`mb-2 text-lg ${isDeparture ? 'text-left' : 'text-right'}`}>
             <div>{iata}</div>

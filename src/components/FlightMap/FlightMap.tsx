@@ -4,6 +4,8 @@ import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
 import icon from '../../assets/plane-i.png';
 import { useTranslation } from 'react-i18next';
+import { useFlightSelectionStore } from '../../store';
+import { useNavigate } from 'react-router-dom';
 
 interface Flight {
     icao24: string;
@@ -138,19 +140,58 @@ function DraggingCords() {
         iconUrl: icon,
         iconSize: [20, 20]
     });
+    const navigate = useNavigate();
+    const handleSearchClick = (flighticao: string) => {
+        const url = `/search/${flighticao}`;
+        navigate(url);
+    };
+
     return (
         <>
             {flights.map((flight: Flight) => (
-                <Marker icon={planeIcon} key={flight.icao24} position={[flight.lat, flight.lon]}>
+                <Marker
+                    icon={planeIcon}
+                    key={flight.icao24}
+                    position={[flight.lat, flight.lon]}
+                    // eventHandlers={{
+                    //     click: (e) => {
+                    //         console.log('mapid', flight.icao24);
+                    //         console.log('mapid', flight.callsign);
+                    //         useFlightSelectionStore.setState({
+                    //             selectedCallsign: flight.callsign
+                    //         });
+                    //     }
+                    // }}
+                    eventHandlers={{
+                        click: () => {
+                            const selectedFlight = {
+                                icao: flight.icao24,
+                                callsign: flight.callsign
+                            };
+
+                            localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
+
+                            useFlightSelectionStore.setState({
+                                selectedCallsign: flight.callsign
+                            });
+                        }
+                    }}
+                >
                     <Popup>
                         <div className="popup">
-                            <span>Kodu: {flight.callsign}</span>
+                            <span>ICAO: {flight.icao24} </span>
                             <button
+                                className="text-blue-500"
                                 onClick={() => {
                                     console.log('mapid', flight.icao24);
+                                    console.log('callSign', flight.callsign);
+                                    useFlightSelectionStore.setState({
+                                        selectedCallsign: flight.callsign
+                                    });
+                                    handleSearchClick(flight.icao24);
                                 }}
                             >
-                                Detay
+                                View Details
                             </button>
                         </div>
                     </Popup>

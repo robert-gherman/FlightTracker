@@ -1,6 +1,7 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import cors from 'cors';
+import axios from 'axios';
 
 const app = express();
 const port = 3001;
@@ -29,15 +30,43 @@ app.get('/aircraft/:icao', async (req, res) => {
         );
 
         const data = await response.json();
-        console.log('DA');
-        console.log(data);
+
         res.json(data);
     } catch (error) {
         console.error('Error fetching aircraft data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+app.get('/routes/:callsign', async (req, res) => {
+    const callsign = req.params.callsign;
+    try {
+        const response = await axios.get(
+            `https://opensky-network.org/api/routes?callsign=${callsign}`
+        );
+        const data = response.data;
 
+        if (!data || Object.keys(data).length === 0) {
+            throw new Error('Empty response or invalid JSON format');
+        }
+
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching routes data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+app.get('/airports/:icao', async (req, res) => {
+    const icao = req.params.icao;
+    try {
+        const response = await axios.get(`https://opensky-network.org/api/airports?icao=${icao}`);
+        const data = response.data;
+
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching airport data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 app.options('/aircraft/:icao', (req, res) => {
     res.sendStatus(200);
 });
