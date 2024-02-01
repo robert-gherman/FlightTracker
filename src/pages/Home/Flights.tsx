@@ -8,7 +8,7 @@ export default function Flights() {
         <div className="flex flex-wrap">
             <div>
                 <FlightInfoHeader />
-                {/* <FlightSingleMap /> */}
+                <FlightSingleMap />
                 <FlightHistoryDetails />
             </div>
             <FlightInfoDetails />

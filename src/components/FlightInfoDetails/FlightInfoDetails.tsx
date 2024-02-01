@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 
 export function FlightInfoDetails() {
     const { t } = useTranslation();
+    const storedFlight = localStorage.getItem('selectedFlight');
+    const parsedFlight = JSON.parse(storedFlight as string);
     const flightProperties = [
         t('web.aviationTerms.registration'),
         t('web.aviationTerms.model'),
@@ -15,14 +17,14 @@ export function FlightInfoDetails() {
         t('web.aviationTerms.callsign'),
         t('web.aviationTerms.flight'),
         t('web.aviationTerms.engine'),
-        t('web.aviationTerms.callsign'),
-        t('web.aviationTerms.country')
-        // t('web.aviationTerms.velocity'),
+
+        t('web.aviationTerms.velocity'),
         // t('web.aviationTerms.track'),
-        // t('web.aviationTerms.geomAltitude'),
-        // t('web.aviationTerms.baromAltitude'),
+        t('web.aviationTerms.geomAltitude'),
+        t('web.aviationTerms.baromAltitude'),
+        t('web.aviationTerms.country'),
         // t('web.aviationTerms.verticalRate'),
-        // t('web.aviationTerms.squawk'),
+        t('web.aviationTerms.squawk')
         // t('web.aviationTerms.source')
     ];
     const flightDummyMap = [
@@ -33,19 +35,20 @@ export function FlightInfoDetails() {
         'operatorCallsign',
         'icao24',
         'engines',
-        // 'velocity',
+
+        'velocity',
+
         // 'track',
-        // 'geomAltitude',
-        // 'baromAltitude',
+        'geoAltitude',
+        'baroAltitude',
         // 'verticalRate',
-        // 'squawk',
-        'callSign',
-        'country'
+
+        'country',
+        'squawk'
     ];
 
     const [aircraftData, setAircraftData] = useState(null);
-    const storedFlight = localStorage.getItem('selectedFlight');
-    const parsedFlight = JSON.parse(storedFlight as string);
+
     useEffect(() => {
         const fetchAircraftData = async () => {
             try {
@@ -96,17 +99,38 @@ export function FlightInfoDetails() {
                 <div className="mx-5 mt-4">
                     {aircraftData &&
                         flightDummyMap.map((key) => {
-                            const value =
-                                key === 'callSign' ? parsedFlight.callsign : aircraftData[key];
+                            let value;
+
+                            switch (key) {
+                                case 'callSign':
+                                    value = parsedFlight.callsign;
+                                    break;
+                                case 'velocity':
+                                    value = parsedFlight.velocity;
+                                    break;
+                                case 'geoAltitude':
+                                    value = parsedFlight.geoAltitude;
+                                    break;
+                                case 'baroAltitude':
+                                    value = parsedFlight.baroAltitude;
+                                    break;
+                                case 'squawk':
+                                    value = parsedFlight.squak;
+                                    break;
+                                default:
+                                    value = aircraftData[key];
+                            }
+
                             return value ? (
                                 <div className="my-4 text-sm" key={key}>
                                     {value as ReactNode}
                                 </div>
                             ) : (
-                                <div>N/A</div>
+                                <div className="my-4 text-sm" key={key}>
+                                    N/A
+                                </div>
                             );
                         })}
-                    <div>{parsedFlight.callSign}</div>
                 </div>
             </div>
         </div>

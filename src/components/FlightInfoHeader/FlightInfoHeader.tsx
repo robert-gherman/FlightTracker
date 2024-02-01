@@ -52,7 +52,7 @@ export function FlightInfoHeader() {
                 }
 
                 const data = await response.json();
-                console.log(data);
+
                 setRouteData(data);
             } catch (error) {
                 console.error('Error fetching aircraft data:', error);

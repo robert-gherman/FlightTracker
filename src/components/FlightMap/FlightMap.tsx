@@ -166,9 +166,15 @@ function DraggingCords() {
                         click: () => {
                             const selectedFlight = {
                                 icao: flight.icao24,
-                                callsign: flight.callsign
+                                callsign: flight.callsign,
+                                lat: flight.lat,
+                                lon: flight.lon,
+                                velocity: flight.velocity,
+                                geoAltitude: flight.geoAltitude,
+                                baroAltitude: flight.baroAltitude,
+                                squak: flight.squawk
                             };
-
+                            console.log('callSign', flight);
                             localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
 
                             useFlightSelectionStore.setState({
@@ -184,7 +190,7 @@ function DraggingCords() {
                                 className="text-blue-500"
                                 onClick={() => {
                                     console.log('mapid', flight.icao24);
-                                    console.log('callSign', flight.callsign);
+
                                     useFlightSelectionStore.setState({
                                         selectedCallsign: flight.callsign
                                     });
