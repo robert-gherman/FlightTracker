@@ -14,7 +14,7 @@ export function FlightProgressBar({ value }: FlightProgressBarProps) {
                     paddingBottom: '13px'
                 }}
             >
-                <FaPlane size={50} />
+                <FaPlane size={40} />
             </div>
         </div>
     );

@@ -98,7 +98,7 @@ function DraggingCords() {
                     `https://opensky-network.org/api/states/all?extended=false&lamin=${coords.lamin}&lomin=${coords.lomin}&lamax=${coords.lamax}&lomax=${coords.lomax}`
                 );
                 const data = await response.json();
-
+                console.log(data);
                 const flightsData = data.states.map((flightData: FlightDataArray) => ({
                     icao24: flightData[0],
                     callsign: flightData[1],
@@ -153,15 +153,6 @@ function DraggingCords() {
                     icon={planeIcon}
                     key={flight.icao24}
                     position={[flight.lat, flight.lon]}
-                    // eventHandlers={{
-                    //     click: (e) => {
-                    //         console.log('mapid', flight.icao24);
-                    //         console.log('mapid', flight.callsign);
-                    //         useFlightSelectionStore.setState({
-                    //             selectedCallsign: flight.callsign
-                    //         });
-                    //     }
-                    // }}
                     eventHandlers={{
                         click: () => {
                             const selectedFlight = {
@@ -174,7 +165,7 @@ function DraggingCords() {
                                 baroAltitude: flight.baroAltitude,
                                 squak: flight.squawk
                             };
-                            console.log('callSign', flight);
+
                             localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
 
                             useFlightSelectionStore.setState({
@@ -185,7 +176,7 @@ function DraggingCords() {
                 >
                     <Popup>
                         <div className="popup">
-                            <span>ICAO: {flight.icao24} </span>
+                            <span>ICAO: {flight.callsign} </span>
                             <button
                                 className="text-blue-500"
                                 onClick={() => {

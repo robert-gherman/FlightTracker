@@ -17,15 +17,11 @@ export function FlightInfoDetails() {
         t('web.aviationTerms.callsign'),
         t('web.aviationTerms.flight'),
         t('web.aviationTerms.engine'),
-
         t('web.aviationTerms.velocity'),
-        // t('web.aviationTerms.track'),
         t('web.aviationTerms.geomAltitude'),
         t('web.aviationTerms.baromAltitude'),
         t('web.aviationTerms.country'),
-        // t('web.aviationTerms.verticalRate'),
         t('web.aviationTerms.squawk')
-        // t('web.aviationTerms.source')
     ];
     const flightDummyMap = [
         'registration',
@@ -35,14 +31,9 @@ export function FlightInfoDetails() {
         'operatorCallsign',
         'icao24',
         'engines',
-
         'velocity',
-
-        // 'track',
         'geoAltitude',
         'baroAltitude',
-        // 'verticalRate',
-
         'country',
         'squawk'
     ];
