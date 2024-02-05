@@ -98,7 +98,7 @@ function DraggingCords() {
                     `https://opensky-network.org/api/states/all?extended=false&lamin=${coords.lamin}&lomin=${coords.lomin}&lamax=${coords.lamax}&lomax=${coords.lomax}`
                 );
                 const data = await response.json();
-                console.log(data);
+
                 const flightsData = data.states.map((flightData: FlightDataArray) => ({
                     icao24: flightData[0],
                     callsign: flightData[1],

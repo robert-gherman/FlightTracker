@@ -34,7 +34,7 @@ export function FlightInfoHeader() {
         const fetchFlightInfo = async () => {
             try {
                 const response = await fetch(
-                    `http://api.aviationstack.com/v1/flights?access_key=460b9eb6789e1ede50169602fa2d44d4&flight_icao=${parsedFlight.callsign}`
+                    `http://api.aviationstack.com/v1/flights?access_key=460b9eb6789e1ede50169602fa2d44d4&flight_ica=${parsedFlight.callsign}`
                 );
 
                 const data = await response.json();
