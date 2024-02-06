@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '../../shadcn/components/ui/alert';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { use } from 'i18next';
 
 function convertTimeToSeconds(departureTime: string, arrivalTime: string): number {
     const parsedArrivalTime = parseISO(arrivalTime);
@@ -29,26 +30,102 @@ export function FlightInfoHeader() {
     const [couldfindFlight, setCouldFindFlight] = useState(false);
     const storedFlight = localStorage.getItem('selectedFlight');
     const parsedFlight = JSON.parse(storedFlight as string);
-
     useEffect(() => {
-        const fetchFlightInfo = async () => {
-            try {
-                const response = await fetch(
-                    `http://api.aviationstack.com/v1/flights?access_key=460b9eb6789e1ede50169602fa2d44d4&flight_ica=${parsedFlight.callsign}`
-                );
-
-                const data = await response.json();
-                if (response.ok) {
-                    setCouldFindFlight(true);
-                }
-
-                setFlightData(data.data[0]);
-            } catch (error) {
-                console.error('Error fetching airport data:', error);
+        setFlightData({
+            flight_date: '2019-12-12',
+            flight_status: 'active',
+            departure: {
+                airport: 'San Francisco International',
+                timezone: 'America/Los_Angeles',
+                iata: 'SFO',
+                icao: 'KSFO',
+                terminal: '2',
+                gate: 'D11',
+                baggage: null,
+                delay: 13,
+                scheduled: '2019-12-12T04:20:00+00:00',
+                estimated: '2019-12-12T04:20:00+00:00',
+                actual: '2019-12-12T04:20:13+00:00',
+                estimated_runway: '2019-12-12T04:20:13+00:00',
+                actual_runway: '2019-12-12T04:20:13+00:00'
+            },
+            arrival: {
+                airport: 'Dallas/Fort Worth International',
+                timezone: 'America/Chicago',
+                iata: 'DFW',
+                icao: 'KDFW',
+                terminal: 'A',
+                gate: 'A22',
+                baggage: null,
+                delay: null,
+                scheduled: '2019-12-12T04:20:00+00:00',
+                estimated: '2019-12-12T04:22:00+00:00',
+                actual: null,
+                estimated_runway: null,
+                actual_runway: null
+            },
+            airline: {
+                name: 'American Airlines',
+                iata: 'AA',
+                icao: 'AAL'
+            },
+            flight: {
+                number: '1004',
+                iata: 'AA1004',
+                icao: 'AAL1004',
+                codeshared: null
+            },
+            aircraft: {
+                registration: 'N160AN',
+                iata: 'A321',
+                icao: 'A321',
+                icao24: 'A0F1BB'
+            },
+            live: null
+        });
+        setCouldFindFlight(true);
+        const selectedAircraft = {
+            departure: {
+                icao: 'KSFO'
+            },
+            arrival: {
+                icao: 'KDFW'
             }
         };
-        fetchFlightInfo();
+        const existingData = localStorage.getItem('selectedFlight');
+        const existingAircraft = JSON.parse(existingData as string);
+        const mergedData = { ...existingAircraft, ...selectedAircraft };
+        localStorage.setItem('selectedFlight', JSON.stringify(mergedData));
     }, []);
+
+    // useEffect(() => {
+    //     const fetchFlightInfo = async () => {
+    //         try {
+    //             const response = await fetch(
+    //                 `http://api.aviationstack.com/v1/flights?access_key=3b034e23d91e6601b6e00dbc915a0bcc&flight_icao=${parsedFlight.callsign}`
+    //             );
+    //             const data = await response.json();
+
+    //             if (response.ok) {
+    //                 setCouldFindFlight(true);
+    //                 const selectedAircraft = {
+    //                     departure: {
+    //                         iata: data.data[0].departure.iata
+    //                     },
+    //                     arrival: {
+    //                         iata: data.data[0].arrival.iata
+    //                     }
+    //                 };
+    //                 localStorage.setItem('selectedFlight', JSON.stringify({ ...selectedAircraft }));
+    //             }
+
+    //             setFlightData(data.data[0]);
+    //         } catch (error) {
+    //             console.error('Error fetching airport data:', error);
+    //         }
+    //     };
+    //     fetchFlightInfo();
+    // }, []);
 
     return (
         <div className=" mx-11 my-[50px] max-h-[600px] w-[900px] rounded-lg border-2 border-slate-300 p-10">
@@ -144,7 +221,12 @@ interface FlightData {
         icao: string;
         codeshared: null;
     };
-    aircraft: null;
+    aircraft: {
+        registration: string;
+        iata: string;
+        icao: string;
+        icao24: string;
+    };
     airline: {
         name: string;
         iata: string;
@@ -164,7 +246,6 @@ function AlertError() {
     );
 }
 function AirportInfo({ iata, airportName, gate, time, isDeparture }: AirportInfoProps) {
-    console.log('values in airdport info:', iata, airportName, gate, time, isDeparture);
     const formatDateTime = (dateTime: string): { date: string; time: string } => {
         const parsedDate = new Date(dateTime);
         const formattedDate = format(parsedDate, 'EEEE d-MMM-yyyy');

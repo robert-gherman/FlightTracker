@@ -180,8 +180,6 @@ function DraggingCords() {
                             <button
                                 className="text-blue-500"
                                 onClick={() => {
-                                    console.log('mapid', flight.icao24);
-
                                     useFlightSelectionStore.setState({
                                         selectedCallsign: flight.callsign
                                     });
